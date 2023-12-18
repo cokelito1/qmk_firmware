@@ -32,7 +32,8 @@ GAME_GG_EZ = SAFE_RANGE
 
 enum __layers {
     MAIN_LAYER,
-    LATEX_LAYER
+    LATEX_LAYER,
+    CONFIG_LAYER
 };
 
 #define KC_TASK LGUI(KC_TAB)
@@ -46,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV,          KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,            KC_MINS, KC_EQL,   KC_BSPC,          KC_HOME,
         KC_TAB,          KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,            KC_LBRC, KC_RBRC,  KC_BSLS,          KC_PGUP,
         MO(LATEX_LAYER), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,         KC_QUOT, KC_NUHS,  KC_ENT,           KC_PGDN,
-        KC_LSFT,         KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   KC_END,
+        KC_LSFT,         KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   TG(CONFIG_LAYER),
         KC_LCTL,         KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, MO(LATEX_LAYER), KC_RCTL,           KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LATEX_LAYER] = LAYOUT_all( /* Base */
@@ -55,13 +56,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              LATEX_VARPHI,         _______, _______, _______,          _______,
         MO(LATEX_LAYER), LATEX_ALPHA, LATEX_SERIES, _______, _______, GAME_GG_EZ, _______,                      KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, LATEX_LAMBDA,         _______,              _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    UP(N_TILDE, N_TILDE_SHIFTED), _______,             _______,             _______,              _______,              _______,          _______, _______, _______,
-        _______,         _______,     _______,                        _______,                                                                            _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______)
+        _______,         _______,     _______,                        _______,                                                                            _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
+
+
+    [CONFIG_LAYER] = LAYOUT_all( /* Base */
+        RGB_TOG,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
+        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
+        _______,         _______,     RGB_MOD,      _______, _______, _______,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
+        _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    RGB_VAD,    RGB_SAD,    RGB_VAI,    _______,    _______, _______, _______,          _______,
+        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, TG(CONFIG_LAYER),
+        _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______)
 };
 
-bool process_latex(keyrecord_t* record, const char* text, const char* shifted_text) {
+bool process_macro(keyrecord_t* record, const char* text, const char* shifted_text) {
+    const uint8_t mods = get_mods();
+
     if(record->event.pressed) {
-        if(get_mods() & MOD_BIT(MOD_MASK_SHIFT)) {
+        if(mods & MOD_BIT(MOD_MASK_SHIFT)) {
+            unregister_mods(MOD_MASK_SHIFT);
             SEND_STRING(shifted_text);
+            register_mods(MOD_MASK_SHIFT);
         } else {
             SEND_STRING(text);
         }
@@ -74,13 +88,13 @@ bool process_latex(keyrecord_t* record, const char* text, const char* shifted_te
 bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case LATEX_ALPHA:
-            return process_latex(record, "\\alpha", "\\Alpha");
+            return process_macro(record, "\\alpha", "\\Alpha");
         case LATEX_VARPHI:
-            return process_latex(record, "\\varphi", "\\phi");
+            return process_macro(record, "\\varphi", "\\phi");
         case LATEX_LAMBDA:
-            return process_latex(record, "\\lambda", "\\Lambda");
+            return process_macro(record, "\\lambda", "\\Lambda");
         case LATEX_SERIES:
-            return process_latex(record, "\\sigma", "\\sum_{n = 1}^{\\infty}");
+            return process_macro(record, "\\sigma", "\\sum_{n = 1}^{\\infty}");
         default:
             return true;
     }
@@ -91,10 +105,7 @@ bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
 bool process_game_keycodes(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case GAME_GG_EZ:
-            if(record->event.pressed) {
-                SEND_STRING("\ngg ez, mejoren\n");
-            }
-            return false;
+            return process_macro(record, "gg ez", "GG EZ");
     }
 
     return true;
@@ -111,6 +122,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [MAIN_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    [LATEX_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) }
+    [LATEX_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
+    [CONFIG_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) }
 };
 #endif
