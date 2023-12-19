@@ -121,8 +121,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // clang-format off
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [MAIN_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    [LATEX_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) },
-    [CONFIG_LAYER] = { ENCODER_CCW_CW(KC_VOLU, KC_VOLD) }
+    [MAIN_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
+    [LATEX_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
+    [CONFIG_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) }
 };
 #endif
