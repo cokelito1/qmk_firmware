@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         RGB_TOG,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
         _______,         _______,     RGB_MOD,      _______, _______, AS_TOGG,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    RGB_VAD,    RGB_SAD,    RGB_VAI,    _______,    _______, _______, _______,          _______,
+        _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    _______,    RGB_SAD,    _______,    _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, TG(CONFIG_LAYER),
         _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______)
 };
@@ -123,6 +123,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [MAIN_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
     [LATEX_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
-    [CONFIG_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) }
+    [CONFIG_LAYER] = { ENCODER_CCW_CW(RGB_VAI, RGB_VAD) }
 };
 #endif
