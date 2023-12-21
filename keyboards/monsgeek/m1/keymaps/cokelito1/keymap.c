@@ -55,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              LATEX_VARPHI,         _______, _______, _______,          _______,
         MO(LATEX_LAYER), LATEX_ALPHA, LATEX_SERIES, _______, _______, GAME_GG_EZ, _______,                      KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, LATEX_LAMBDA,         _______,              _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, _______, _______,    UP(N_TILDE, N_TILDE_SHIFTED), _______,             _______,             _______,              _______,              _______,          _______, _______, _______,
+        _______,         _______,     _______,      _______, KC_CAPS, _______,    UP(N_TILDE, N_TILDE_SHIFTED), _______,             _______,             _______,              _______,              _______,          _______, _______, _______,
         _______,         _______,     _______,                        _______,                                                                            _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
 
 
@@ -105,7 +105,7 @@ bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
 bool process_game_keycodes(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case GAME_GG_EZ:
-            return process_macro(record, "gg ez", "GG EZ");
+            return process_macro(record, "\ngg wp\n", "\nGG WP\n");
     }
 
     return true;
