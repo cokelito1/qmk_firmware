@@ -19,6 +19,17 @@
 #define N_TILDE 0x00F1
 #define N_TILDE_SHIFTED 0x00D1
 
+#define A_TILDE         0x00E1
+#define A_TILDE_SHIFTED 0x00C1
+#define E_TILDE         0x00E9
+#define E_TILDE_SHIFTED 0x00C9
+#define I_TILDE         0x00ED
+#define I_TILDE_SHIFTED 0x00CD
+#define O_TILDE         0x00F3
+#define O_TILDE_SHIFTED 0x00D3
+#define U_TILDE         0x00F9
+#define U_TILDE_SHIFTED 0x00D9
+
 enum latex_keycodes {
   LATEX_VARPHI = SAFE_RANGE,
   LATEX_ALPHA,
@@ -135,6 +146,30 @@ void leader_end_user() {
         SEND_STRING(SS_LCTL("v"));
     } else if(leader_sequence_one_key(KC_S)) {
         tap_code16(KC_F13);
+    } else if(leader_sequence_three_keys(KC_I, KC_A, KC_N)) {
+        tap_code16(UC(A_TILDE));
+    } else if(leader_sequence_three_keys(KC_I, KC_A, KC_M)) {
+        tap_code16(UC(A_TILDE_SHIFTED));
+    } else if(leader_sequence_three_keys(KC_I, KC_E, KC_N)) {
+        tap_code16(UC(E_TILDE));
+    } else if(leader_sequence_three_keys(KC_I, KC_E, KC_M)) {
+        tap_code16(UC(E_TILDE_SHIFTED));
+    } else if(leader_sequence_three_keys(KC_I, KC_I, KC_N)) {
+        tap_code16(UC(I_TILDE));
+    } else if(leader_sequence_three_keys(KC_I, KC_I, KC_M)) {
+        tap_code16(UC(I_TILDE_SHIFTED));
+    } else if(leader_sequence_three_keys(KC_I, KC_O, KC_N)) {
+        tap_code16(UC(O_TILDE));
+    } else if(leader_sequence_three_keys(KC_I, KC_O, KC_M)) {
+        tap_code16(UC(O_TILDE_SHIFTED));
+    } else if(leader_sequence_three_keys(KC_I, KC_U, KC_N)) {
+        tap_code16(UC(U_TILDE));
+    } else if(leader_sequence_three_keys(KC_I, KC_U, KC_M)) {
+        tap_code16(UC(U_TILDE_SHIFTED));
+    } else if(leader_sequence_two_keys(KC_M, KC_M)) {
+        tap_code16(KC_F14);
+    } else if(leader_sequence_two_keys(KC_M, KC_A)) {
+        tap_code16(KC_F15);
     }
 }
 
