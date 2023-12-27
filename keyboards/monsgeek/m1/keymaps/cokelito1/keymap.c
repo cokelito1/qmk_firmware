@@ -144,7 +144,7 @@ void leader_end_user() {
         SEND_STRING(SS_LCTL("c"));
     } else if(leader_sequence_one_key(KC_V)) {
         SEND_STRING(SS_LCTL("v"));
-    } else if(leader_sequence_one_key(KC_S)) {
+    } else if(leader_sequence_two_keys(KC_D, KC_S)) {
         tap_code16(KC_F13);
     } else if(leader_sequence_three_keys(KC_I, KC_A, KC_N)) {
         tap_code16(UC(A_TILDE));
@@ -166,13 +166,20 @@ void leader_end_user() {
         tap_code16(UC(U_TILDE));
     } else if(leader_sequence_three_keys(KC_I, KC_U, KC_M)) {
         tap_code16(UC(U_TILDE_SHIFTED));
-    } else if(leader_sequence_two_keys(KC_M, KC_M)) {
+    } else if(leader_sequence_three_keys(KC_D, KC_M, KC_M)) {
         tap_code16(KC_F14);
-    } else if(leader_sequence_two_keys(KC_M, KC_A)) {
+    } else if(leader_sequence_three_keys(KC_D, KC_M, KC_A)) {
         tap_code16(KC_F15);
     }
 }
 
+layer_state_t layer_state_set_user(layer_state_t state) {
+    if(IS_LAYER_ON_STATE(state, GAMING_LAYER)) {
+        tap_code16(QK_AUTO_SHIFT_OFF);
+    }
+
+    return state;
+}
 
 // clang-format off
 #if defined(ENCODER_MAP_ENABLE)
