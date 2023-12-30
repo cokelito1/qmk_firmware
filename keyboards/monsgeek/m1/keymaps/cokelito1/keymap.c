@@ -16,19 +16,20 @@
 
 #include QMK_KEYBOARD_H
 
-#define N_TILDE 0x00F1
-#define N_TILDE_SHIFTED 0x00D1
-
-#define A_TILDE         0x00E1
-#define A_TILDE_SHIFTED 0x00C1
-#define E_TILDE         0x00E9
-#define E_TILDE_SHIFTED 0x00C9
-#define I_TILDE         0x00ED
-#define I_TILDE_SHIFTED 0x00CD
-#define O_TILDE         0x00F3
-#define O_TILDE_SHIFTED 0x00D3
-#define U_TILDE         0x00F9
-#define U_TILDE_SHIFTED 0x00D9
+enum unicode_names {
+N_TILDE,
+N_TILDE_SHIFTED,
+A_TILDE,
+A_TILDE_SHIFTED,
+E_TILDE,
+E_TILDE_SHIFTED,
+I_TILDE,
+I_TILDE_SHIFTED,
+O_TILDE,
+O_TILDE_SHIFTED,
+U_TILDE,
+U_TILDE_SHIFTED
+};
 
 enum latex_keycodes {
   LATEX_VARPHI = SAFE_RANGE,
@@ -51,6 +52,21 @@ enum __layers {
 #define KC_TASK LGUI(KC_TAB)
 #define KC_FLXP LGUI(KC_E)
 
+const uint32_t PROGMEM unicode_map[] = {
+[N_TILDE] = 0x00F1,
+[N_TILDE_SHIFTED] = 0x00D1,
+[A_TILDE] = 0x00E1,
+[A_TILDE_SHIFTED] = 0x00C1,
+[E_TILDE] = 0x00E9,
+[E_TILDE_SHIFTED] = 0x00C9,
+[I_TILDE] = 0x00ED,
+[I_TILDE_SHIFTED] = 0x00CD,
+[O_TILDE] = 0x00F3,
+[O_TILDE_SHIFTED] = 0x00D3,
+[U_TILDE] = 0x00F9,
+[U_TILDE_SHIFTED] 0x00D9,
+};
+
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -66,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              LATEX_VARPHI,         _______, _______, _______,          _______,
-        MO(LATEX_LAYER), LATEX_ALPHA, LATEX_SERIES, _______, _______, GAME_GG_EZ, _______,                      KC_MEDIA_PREV_TRACK, KC_MEDIA_NEXT_TRACK, LATEX_LAMBDA,         _______,              _______, _______, _______,          _______,
+        MO(LATEX_LAYER), LATEX_ALPHA, LATEX_SERIES, _______, _______, GAME_GG_EZ, KC_LEFT,                      KC_DOWN,             KC_UP,               KC_RIGHT,             _______,              _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, KC_CAPS, _______,    UP(N_TILDE, N_TILDE_SHIFTED), _______,             _______,             _______,              _______,              _______,          _______, _______, _______,
         _______,         _______,     _______,                        _______,                                                                            _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
 
@@ -74,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [CONFIG_LAYER] = LAYOUT_all( /* Base */
         RGB_TOG,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         _______,     RGB_MOD,      _______, AS_RPT,  AS_TOGG,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
+        _______,         _______,     RGB_MOD,      _______, _______, _______,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
         _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    AS_DOWN,    RGB_SAD,    AS_UP,      _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, TG(CONFIG_LAYER),
         _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______),
@@ -92,7 +108,7 @@ bool process_macro(keyrecord_t* record, const char* text, const char* shifted_te
     const uint8_t mods = get_mods();
 
     if(record->event.pressed) {
-        if(mods & MOD_BIT(MOD_MASK_SHIFT)) {
+        if(mods & MOD_MASK_SHIFT) {
             unregister_mods(MOD_MASK_SHIFT);
             SEND_STRING(shifted_text);
             register_mods(MOD_MASK_SHIFT);
@@ -125,7 +141,10 @@ bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
 bool process_game_keycodes(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case GAME_GG_EZ:
-            return process_macro(record, "\ngg wp\n", "\nGG WP\n");
+            tap_code16(KC_ENT);
+            process_macro(record, "gg wp", "GG WP");
+            tap_code16(KC_ENT);
+            return false;
     }
 
     return true;
@@ -173,12 +192,12 @@ void leader_end_user() {
     }
 }
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    if(IS_LAYER_ON_STATE(state, GAMING_LAYER)) {
-        tap_code16(QK_AUTO_SHIFT_OFF);
-    }
+void keyboard_post_init_user() {
+    rgblight_enable_noeeprom();
+    rgblight_sethsv_noeeprom(201, 200, 160);
 
-    return state;
+    rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+    set_unicode_input_mode(UNICODE_MODE_WINDOWS);
 }
 
 // clang-format off
