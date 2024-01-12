@@ -16,20 +16,29 @@
 
 #include QMK_KEYBOARD_H
 
-enum unicode_names {
-N_TILDE,
-N_TILDE_SHIFTED,
-A_TILDE,
-A_TILDE_SHIFTED,
-E_TILDE,
-E_TILDE_SHIFTED,
-I_TILDE,
-I_TILDE_SHIFTED,
-O_TILDE,
-O_TILDE_SHIFTED,
-U_TILDE,
-U_TILDE_SHIFTED
-};
+//Screenshot macro
+#define KC_SS LSG(KC_S)
+
+//Virtual Desktop macros
+#define KC_DO C(G(KC_D))
+#define KC_DC C(G(KC_F4))
+#define KC_DN C(G(KC_RIGHT))
+#define KC_DP C(G(KC_LEFT))
+
+//Window managment macro
+#define KC_WU A(G(KC_UP))
+#define KC_WD A(G(KC_DOWN))
+#define KC_WL G(KC_LEFT)
+#define KC_WR G(KC_RIGHT)
+#define KC_WM G(KC_UP)
+
+//N tilde macros
+#define KC_NTIL UP(N_TILDE, SHIFTED_N_TILDE)
+#define KC_AACC UP(A_ACCENT, SHIFTED_A_ACCENT)
+#define KC_EACC UP(E_ACCENT, SHIFTED_E_ACCENT)
+#define KC_IACC UP(I_ACCENT, SHIFTED_I_ACCENT)
+#define KC_OACC UP(O_ACCENT, SHIFTED_O_ACCENT)
+#define KC_UACC UP(U_ACCENT, SHIFTED_U_ACCENT)
 
 enum latex_keycodes {
   LATEX_VARPHI = SAFE_RANGE,
@@ -39,32 +48,46 @@ enum latex_keycodes {
 };
 
 enum game_keycodes {
-GAME_GG_EZ = SAFE_RANGE
+  GAME_GG_EZ = SAFE_RANGE
 };
 
 enum __layers {
     MAIN_LAYER,
     LATEX_LAYER,
-    CONFIG_LAYER,
-    GAMING_LAYER
+    CONFIG_LAYER
 };
 
 #define KC_TASK LGUI(KC_TAB)
 #define KC_FLXP LGUI(KC_E)
 
+enum unicode_names {
+  N_TILDE,
+  SHIFTED_N_TILDE,
+  A_ACCENT,
+  SHIFTED_A_ACCENT,
+  E_ACCENT,
+  SHIFTED_E_ACCENT,
+  I_ACCENT,
+  SHIFTED_I_ACCENT,
+  O_ACCENT,
+  SHIFTED_O_ACCENT,
+  U_ACCENT,
+  SHIFTED_U_ACCENT
+};
+
 const uint32_t PROGMEM unicode_map[] = {
-[N_TILDE] = 0x00F1,
-[N_TILDE_SHIFTED] = 0x00D1,
-[A_TILDE] = 0x00E1,
-[A_TILDE_SHIFTED] = 0x00C1,
-[E_TILDE] = 0x00E9,
-[E_TILDE_SHIFTED] = 0x00C9,
-[I_TILDE] = 0x00ED,
-[I_TILDE_SHIFTED] = 0x00CD,
-[O_TILDE] = 0x00F3,
-[O_TILDE_SHIFTED] = 0x00D3,
-[U_TILDE] = 0x00F9,
-[U_TILDE_SHIFTED] 0x00D9,
+  [N_TILDE]          = 0x00F1, //ñ
+  [SHIFTED_N_TILDE]  = 0x00D1, //Ñ
+  [A_ACCENT]         = 0x00E1, //á
+  [SHIFTED_A_ACCENT] = 0x00C1, //Á
+  [E_ACCENT]         = 0x00E9, //é
+  [SHIFTED_E_ACCENT] = 0x00C9, //É
+  [I_ACCENT]         = 0x00ED, //í
+  [SHIFTED_I_ACCENT] = 0x00CD, //Í
+  [O_ACCENT]         = 0x00F3, //ó
+  [SHIFTED_O_ACCENT] = 0x00D3, //Ó
+  [U_ACCENT]         = 0x00FA, //ú
+  [SHIFTED_U_ACCENT] = 0x00DA  //Ú
 };
 
 // clang-format off
@@ -73,18 +96,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAIN_LAYER] = LAYOUT_all( /* Base */
         KC_ESC,                   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,          KC_F11,  KC_F12,   KC_DEL,           KC_MEDIA_PLAY_PAUSE,
         KC_GRV,                   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,            KC_MINS, KC_EQL,   KC_BSPC,          KC_HOME,
-        LT(LATEX_LAYER, KC_TAB),  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,            KC_LBRC, KC_RBRC,  KC_BSLS,          KC_PGUP,
-        QK_LEAD,                  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,         KC_QUOT, KC_NUHS,  KC_ENT,           TG(GAMING_LAYER),
-        KC_LSFT,                  KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   TG(CONFIG_LAYER),
+        KC_TAB,                   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,            KC_LBRC, KC_RBRC,  KC_BSLS,          KC_PGUP,
+        LT(LATEX_LAYER, QK_LEAD), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,         KC_QUOT, KC_NUHS,  KC_ENT,           KC_PGDN,
+        KC_LSFT,                  KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   KC_END,
         KC_LCTL,                  KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, MO(LATEX_LAYER), KC_RCTL,           KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LATEX_LAYER] = LAYOUT_all( /* Base */
-        _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, _______, _______,    _______,                      _______,             _______,             _______,              LATEX_VARPHI,         _______, _______, _______,          _______,
-        MO(LATEX_LAYER), LATEX_ALPHA, LATEX_SERIES, _______, _______, GAME_GG_EZ, KC_LEFT,                      KC_DOWN,             KC_UP,               KC_RIGHT,             _______,              _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, KC_CAPS, _______,    UP(N_TILDE, N_TILDE_SHIFTED), _______,             _______,             _______,              _______,              _______,          _______, _______, _______,
-        _______,         _______,     _______,                        _______,                                                                            _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
+        _______,                  _______,     _______,      _______, _______, _______,    _______, _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
+        _______,                  KC_F1,       KC_F2,        KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,               KC_F8,               KC_F9,                KC_F10,               _______, _______, _______,          _______,
+        _______,                  _______,     _______,      KC_EACC, _______, _______,    _______, KC_UACC,             KC_IACC,             KC_OACC,              LATEX_VARPHI,         _______, _______, _______,          _______,
+        LT(LATEX_LAYER, QK_LEAD), KC_AACC,     LATEX_SERIES, _______, _______, _______,    KC_LEFT, KC_DOWN,             KC_UP,               KC_RIGHT,             _______,              _______, _______, _______,          _______,
+        _______,                  _______,     _______,      _______, KC_CAPS, _______,    _______, KC_NTIL,             _______,             _______,              _______,              _______,          _______, _______, TG(CONFIG_LAYER),
+        _______,                  _______,     _______,                        _______,                                                                             _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
 
 
     [CONFIG_LAYER] = LAYOUT_all( /* Base */
@@ -93,14 +116,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,         _______,     RGB_MOD,      _______, _______, _______,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
         _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    AS_DOWN,    RGB_SAD,    AS_UP,      _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, TG(CONFIG_LAYER),
-        _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______),
-
-    [GAMING_LAYER] = LAYOUT_all( /* Base */
-        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
-        KC_TAB,          _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          TG(GAMING_LAYER),
-        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, _______,
         _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______)
 };
 
@@ -131,73 +146,86 @@ bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
             return process_macro(record, "\\lambda", "\\Lambda");
         case LATEX_SERIES:
             return process_macro(record, "\\sigma", "\\sum_{n = 1}^{\\infty}");
+        case LT(LATEX_LAYER, QK_LEAD):
+            if(record->tap.count && record->event.pressed) {
+                leader_start();
+                return false;
+            }
+            return true;
         default:
             return true;
     }
-
-    return true;
-}
-
-bool process_game_keycodes(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-        case GAME_GG_EZ:
-            tap_code16(KC_ENT);
-            process_macro(record, "gg wp", "GG WP");
-            tap_code16(KC_ENT);
-            return false;
-    }
-
     return true;
 }
 
 //Process record
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    return process_latex_keycodes(keycode, record)
-        && process_game_keycodes(keycode, record);
+    return process_latex_keycodes(keycode, record);
 }
 
 void leader_start_user() {}
 
 void leader_end_user() {
-    if(leader_sequence_one_key(KC_C)) {
-        SEND_STRING(SS_LCTL("c"));
-    } else if(leader_sequence_one_key(KC_V)) {
-        SEND_STRING(SS_LCTL("v"));
-    } else if(leader_sequence_two_keys(KC_D, KC_S)) {
-        tap_code16(KC_F13);
-    } else if(leader_sequence_three_keys(KC_I, KC_A, KC_N)) {
-        tap_code16(UC(A_TILDE));
-    } else if(leader_sequence_three_keys(KC_I, KC_A, KC_M)) {
-        tap_code16(UC(A_TILDE_SHIFTED));
-    } else if(leader_sequence_three_keys(KC_I, KC_E, KC_N)) {
-        tap_code16(UC(E_TILDE));
-    } else if(leader_sequence_three_keys(KC_I, KC_E, KC_M)) {
-        tap_code16(UC(E_TILDE_SHIFTED));
-    } else if(leader_sequence_three_keys(KC_I, KC_I, KC_N)) {
-        tap_code16(UC(I_TILDE));
-    } else if(leader_sequence_three_keys(KC_I, KC_I, KC_M)) {
-        tap_code16(UC(I_TILDE_SHIFTED));
-    } else if(leader_sequence_three_keys(KC_I, KC_O, KC_N)) {
-        tap_code16(UC(O_TILDE));
-    } else if(leader_sequence_three_keys(KC_I, KC_O, KC_M)) {
-        tap_code16(UC(O_TILDE_SHIFTED));
-    } else if(leader_sequence_three_keys(KC_I, KC_U, KC_N)) {
-        tap_code16(UC(U_TILDE));
-    } else if(leader_sequence_three_keys(KC_I, KC_U, KC_M)) {
-        tap_code16(UC(U_TILDE_SHIFTED));
-    } else if(leader_sequence_three_keys(KC_D, KC_M, KC_M)) {
+    // Discord Macros
+    if(leader_sequence_three_keys(KC_D, KC_M, KC_M)) {
         tap_code16(KC_F14);
     } else if(leader_sequence_three_keys(KC_D, KC_M, KC_A)) {
         tap_code16(KC_F15);
+    } else if(leader_sequence_two_keys(KC_D, KC_S)) {
+        tap_code16(KC_F13);
+    } else if(leader_sequence_two_keys(KC_D, KC_O)) {
+        tap_code16(KC_DO);
+    } else if(leader_sequence_two_keys(KC_D, KC_C)) {
+        tap_code16(KC_DC);
+    } else if(leader_sequence_two_keys(KC_D, KC_H)) {
+        tap_code16(KC_DP);
+    } else if(leader_sequence_two_keys(KC_D, KC_L)) {
+        tap_code16(KC_DN);
+    } else if(leader_sequence_one_key(KC_C)) {
+        SEND_STRING(SS_LCTL("c"));
+    } else if(leader_sequence_one_key(KC_V)) {
+        SEND_STRING(SS_LCTL("v"));
+    } else if(leader_sequence_one_key(KC_S)) {
+        tap_code16(KC_SS);
+    } else if(leader_sequence_two_keys(KC_W, KC_K)) {
+        tap_code16(KC_WU);
+    } else if(leader_sequence_two_keys(KC_W, KC_J)) {
+        tap_code16(KC_WD);
+    } else if(leader_sequence_two_keys(KC_W, KC_H)) {
+        tap_code16(KC_WL);
+    } else if(leader_sequence_two_keys(KC_W, KC_L)) {
+        tap_code16(KC_WR);
+    } else if(leader_sequence_two_keys(KC_W, KC_M)) {
+        tap_code16(KC_WM);
     }
+}
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    uint8_t current_brigthness = rgblight_get_val();
+
+    switch(get_highest_layer(state)) {
+        case MAIN_LAYER:
+            rgblight_sethsv_noeeprom(201, 200, current_brigthness);
+            break;
+        case LATEX_LAYER:
+            rgblight_sethsv_noeeprom(148, 200, current_brigthness);
+            break;
+        case CONFIG_LAYER:
+            rgblight_sethsv_noeeprom(43, 200, current_brigthness);
+            break;
+        default:
+            rgblight_sethsv_noeeprom(201, 200, current_brigthness);
+            break;
+    }
+
+    return state;
 }
 
 void keyboard_post_init_user() {
     rgblight_enable_noeeprom();
-    rgblight_sethsv_noeeprom(201, 200, 160);
+    rgblight_sethsv_noeeprom(201, 200, 255);
 
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
-    set_unicode_input_mode(UNICODE_MODE_WINDOWS);
 }
 
 // clang-format off
@@ -205,7 +233,6 @@ void keyboard_post_init_user() {
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [MAIN_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
     [LATEX_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) },
-    [CONFIG_LAYER] = { ENCODER_CCW_CW(RGB_VAI, RGB_VAD) },
-    [GAMING_LAYER] = { ENCODER_CCW_CW(KC_MEDIA_NEXT_TRACK, KC_MEDIA_PREV_TRACK) }
+    [CONFIG_LAYER] = { ENCODER_CCW_CW(RGB_VAI, RGB_VAD) }
 };
 #endif
