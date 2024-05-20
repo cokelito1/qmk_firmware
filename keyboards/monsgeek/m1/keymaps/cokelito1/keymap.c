@@ -40,15 +40,23 @@
 #define KC_OACC UP(O_ACCENT, SHIFTED_O_ACCENT)
 #define KC_UACC UP(U_ACCENT, SHIFTED_U_ACCENT)
 
+#define EMAIL_1 "cokelitocokelito@gmail.com"
+#define EMAIL_2 "dereference@nllptr.xyz"
+#define EMAIL_3 "jorge.bravos@usm.cl"
+#define EMAIL_4 "jorge.eduardo.bravo.soto@gmail.com"
+
+#define NICKNAME_1 "cokelito1"
+#define NICKNAME_2 "Cosarh"
+
 enum latex_keycodes {
   LATEX_VARPHI = SAFE_RANGE,
   LATEX_ALPHA,
   LATEX_LAMBDA,
-  LATEX_SERIES
-};
-
-enum game_keycodes {
-  GAME_GG_EZ = SAFE_RANGE
+  LATEX_SERIES,
+  WEB_SHR,
+  KC_EMAIL,
+  KC_NICK,
+  KC_EMAIL2
 };
 
 enum __layers {
@@ -95,26 +103,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [MAIN_LAYER] = LAYOUT_all( /* Base */
         KC_ESC,                   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,          KC_F11,  KC_F12,   KC_DEL,           KC_MEDIA_PLAY_PAUSE,
-        KC_GRV,                   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,            KC_MINS, KC_EQL,   KC_BSPC,          KC_HOME,
-        KC_TAB,                   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,            KC_LBRC, KC_RBRC,  KC_BSLS,          KC_PGUP,
-        LT(LATEX_LAYER, QK_LEAD), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,         KC_QUOT, KC_NUHS,  KC_ENT,           KC_PGDN,
-        KC_LSFT,                  KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   KC_END,
+        KC_GRV,                   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,            KC_MINS, KC_EQL,   KC_BSPC,          KC_F13,
+        KC_TAB,                   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,            KC_LBRC, KC_RBRC,  KC_BSLS,          KC_F14,
+        MO(LATEX_LAYER),          KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,         KC_QUOT, KC_NUHS,  KC_ENT,           KC_F15,
+        KC_LSFT,                  KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,          KC_SLSH,           KC_RSFT, KC_UP,   KC_F16,
         KC_LCTL,                  KC_LGUI, KC_LALT,                   KC_SPC,                             KC_RALT, MO(LATEX_LAYER), KC_RCTL,           KC_LEFT, KC_DOWN, KC_RGHT),
 
     [LATEX_LAYER] = LAYOUT_all( /* Base */
         _______,                  _______,     _______,      _______, _______, _______,    _______, _______,             _______,             _______,              _______,              _______, _______, _______,          _______,
         _______,                  KC_F1,       KC_F2,        KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,               KC_F8,               KC_F9,                KC_F10,               _______, _______, _______,          _______,
         _______,                  _______,     _______,      KC_EACC, _______, _______,    _______, KC_UACC,             KC_IACC,             KC_OACC,              LATEX_VARPHI,         _______, _______, _______,          _______,
-        LT(LATEX_LAYER, QK_LEAD), KC_AACC,     LATEX_SERIES, _______, _______, _______,    KC_LEFT, KC_DOWN,             KC_UP,               KC_RIGHT,             _______,              _______, _______, _______,          _______,
+        MO(LATEX_LAYER),          KC_AACC,     LATEX_SERIES, _______, _______, _______,    KC_LEFT, KC_DOWN,             KC_UP,               KC_RIGHT,             KC_BSPC,              _______, _______, _______,          _______,
         _______,                  _______,     _______,      _______, KC_CAPS, _______,    _______, KC_NTIL,             _______,             _______,              _______,              _______,          _______, _______, TG(CONFIG_LAYER),
         _______,                  _______,     _______,                        _______,                                                                             _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
 
 
     [CONFIG_LAYER] = LAYOUT_all( /* Base */
         RGB_TOG,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
+        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          QK_MAKE,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         _______,     RGB_MOD,      _______, _______, _______,    _______,    _______,    RGB_SAI,    _______,    _______,    _______, _______, _______,          _______,
-        _______,         RGB_HUD,     RGB_RMOD,     RGB_HUI, _______, _______,    _______,    AS_DOWN,    RGB_SAD,    AS_UP,      _______,    _______, _______, _______,          _______,
+        _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______, _______, _______,          _______,
         _______,         _______,     _______,      _______, _______, _______,    _______,    _______,    _______,    _______,    _______,    _______,          _______, _______, TG(CONFIG_LAYER),
         _______,         _______,     _______,                        _______,                                        _______,    _______,    _______,          _______, _______, _______)
 };
@@ -146,12 +154,17 @@ bool process_latex_keycodes(uint16_t keycode, keyrecord_t *record) {
             return process_macro(record, "\\lambda", "\\Lambda");
         case LATEX_SERIES:
             return process_macro(record, "\\sigma", "\\sum_{n = 1}^{\\infty}");
-        case LT(LATEX_LAYER, QK_LEAD):
-            if(record->tap.count && record->event.pressed) {
-                leader_start();
-                return false;
-            }
-            return true;
+        case WEB_SHR:
+          if(record->event.pressed) {
+            SEND_STRING(SS_LCTL("ct") SS_DELAY(100) SS_LCTL("v") SS_TAP(X_ENTER));
+          }
+          return false;
+        case KC_EMAIL:
+          return process_macro(record, EMAIL_1, EMAIL_2);
+        case KC_NICK:
+          return process_macro(record, NICKNAME_1, NICKNAME_2);
+        case KC_EMAIL2:
+          return process_macro(record, EMAIL_3, EMAIL_4);
         default:
             return true;
     }
