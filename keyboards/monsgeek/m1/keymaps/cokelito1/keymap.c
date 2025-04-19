@@ -40,6 +40,8 @@
 #define KC_OACC UP(O_ACCENT, SHIFTED_O_ACCENT)
 #define KC_UACC UP(U_ACCENT, SHIFTED_U_ACCENT)
 
+#define KC_QMIM UP(OPENING_QUESTION_MARK, OPENING_INTERROGATION_MARK)
+
 #define EMAIL_1 "cokelitocokelito@gmail.com"
 #define EMAIL_2 "dereference@nllptr.xyz"
 #define EMAIL_3 "jorge.bravos@usm.cl"
@@ -80,22 +82,26 @@ enum unicode_names {
   O_ACCENT,
   SHIFTED_O_ACCENT,
   U_ACCENT,
-  SHIFTED_U_ACCENT
+  SHIFTED_U_ACCENT,
+  OPENING_QUESTION_MARK,
+  OPENING_INTERROGATION_MARK
 };
 
 const uint32_t PROGMEM unicode_map[] = {
-  [N_TILDE]          = 0x00F1, //ñ
-  [SHIFTED_N_TILDE]  = 0x00D1, //Ñ
-  [A_ACCENT]         = 0x00E1, //á
-  [SHIFTED_A_ACCENT] = 0x00C1, //Á
-  [E_ACCENT]         = 0x00E9, //é
-  [SHIFTED_E_ACCENT] = 0x00C9, //É
-  [I_ACCENT]         = 0x00ED, //í
-  [SHIFTED_I_ACCENT] = 0x00CD, //Í
-  [O_ACCENT]         = 0x00F3, //ó
-  [SHIFTED_O_ACCENT] = 0x00D3, //Ó
-  [U_ACCENT]         = 0x00FA, //ú
-  [SHIFTED_U_ACCENT] = 0x00DA  //Ú
+  [N_TILDE]                    = 0x00F1, //ñ
+  [SHIFTED_N_TILDE]            = 0x00D1, //Ñ
+  [A_ACCENT]                   = 0x00E1, //á
+  [SHIFTED_A_ACCENT]           = 0x00C1, //Á
+  [E_ACCENT]                   = 0x00E9, //é
+  [SHIFTED_E_ACCENT]           = 0x00C9, //É
+  [I_ACCENT]                   = 0x00ED, //í
+  [SHIFTED_I_ACCENT]           = 0x00CD, //Í
+  [O_ACCENT]                   = 0x00F3, //ó
+  [SHIFTED_O_ACCENT]           = 0x00D3, //Ó
+  [U_ACCENT]                   = 0x00FA, //ú
+  [SHIFTED_U_ACCENT]           = 0x00DA, //Ú
+  [OPENING_QUESTION_MARK]      = 0x00BF, //¿
+  [OPENING_INTERROGATION_MARK] = 0x00A1  //¡
 };
 
 // clang-format off
@@ -114,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,                  KC_F1,       KC_F2,        KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,               KC_F8,               KC_F9,                KC_F10,               _______, _______, _______,          _______,
         _______,                  _______,     _______,      KC_EACC, _______, _______,    _______, KC_UACC,             KC_IACC,             KC_OACC,              LATEX_VARPHI,         _______, _______, _______,          _______,
         MO(LATEX_LAYER),          KC_AACC,     LATEX_SERIES, _______, _______, _______,    KC_LEFT, KC_DOWN,             KC_UP,               KC_RIGHT,             KC_BSPC,              _______, _______, _______,          _______,
-        _______,                  _______,     _______,      _______, KC_CAPS, _______,    _______, KC_NTIL,             _______,             _______,              _______,              _______,          _______, _______, TG(CONFIG_LAYER),
+        _______,                  _______,     _______,      _______, KC_CAPS, _______,    _______, KC_NTIL,             _______,             _______,              KC_QMIM,              _______,          _______, _______, TG(CONFIG_LAYER),
         _______,                  _______,     _______,                        _______,                                                                             _______,              MO(LATEX_LAYER),      _______,          _______, _______, _______),
 
 
